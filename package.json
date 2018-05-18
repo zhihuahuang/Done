@@ -1,0 +1,26 @@
+{
+  "name": "Done",
+  "version": "0.1.0",
+  "description": "",
+  "main": "main.js",
+  "dependencies": {
+    "electron": "2.0.0",
+    "element-ui": "^2.3.8",
+    "vue": "^2.5.16",
+    "vuex": "^3.0.1"
+  },
+  "devDependencies": {
+    "browserify": "^16.2.2",
+    "gulp": "^3.9.1",
+    "gulp-concat": "^2.6.1",
+    "gulp-stylus": "^2.7.0",
+    "vinyl-source-stream": "^2.0.0",
+    "vueify": "^9.4.1"
+  },
+  "scripts": {
+    "dev": "gulp build && electron ."
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
