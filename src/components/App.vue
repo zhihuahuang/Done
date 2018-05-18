@@ -5,7 +5,8 @@
                 <span>四象限</span>
                 <span>日历</span>
             </nav>
-            <four-quadrant class="main"></four-quadrant>
+            <calendar></calendar>
+            <!--<four-quadrant class="main"></four-quadrant>-->
         </div>
         <edit-panel></edit-panel>
     </div>
@@ -13,12 +14,15 @@
 
 <script>
     const FourQuadrant = require('./FourQuadrant.vue');
+    const Calendar = require('./Calendar.vue');
+
     const EditPanel = require('./EditPanel.vue');
 
     module.exports = {
         name: "app",
         components: {
             [FourQuadrant.name]: FourQuadrant,
+            [Calendar.name]: Calendar,
             [EditPanel.name]: EditPanel
         }
     }
