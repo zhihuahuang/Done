@@ -1,5 +1,5 @@
 <template>
-    <div class="calendar" style="height: 800px"></div>
+    <div class="calendar"></div>
 </template>
 
 <script>
@@ -7,29 +7,48 @@
 
     module.exports = {
         name: "calendar",
-        mounted() {
-            console.log(this.$el);
-
-            new Calendar(this.$el, {
-                defaultView: 'month', // 月视图
-                month: {
-                    daynames: ['周日', '周一', '周二', '周三', '周四', '周五', '周六']
-                },
-                taskView: true,
-                template: {
-                    monthGridHeader: function(model) {
-                        var date = new Date(model.date);
-                        var template = '<span class="tui-full-calendar-weekday-grid-date">' + date.getDate() + '</span>';
-                        return template;
-                    }
+        data: () => ({
+            calendar: null
+        }),
+        methods: {
+            render() {
+                if (!this.calendar) {
+                    this.calendar = new Calendar(this.$el, {
+                        defaultView: 'month', // 月视图
+                        month: {
+                            daynames: ['周日', '周一', '周二', '周三', '周四', '周五', '周六']
+                        },
+                        // taskView: true,
+                        // template: {
+                        //     monthGridHeader: function(model) {
+                        //         var date = new Date(model.date);
+                        //         var template = '<span class="tui-full-calendar-weekday-grid-date">' + date.getDate() + '</span>';
+                        //         return template;
+                        //     }
+                        // }
+                    });
                 }
+
+                this.calendar.render();
+            }
+        },
+        mounted() {
+            this.render();
+            window.addEventListener('resize', () => {
+                this.render();
             });
+        },
+        beforeDestroy () {
+            this.calendar.destroy();
         }
     }
 </script>
 
 <style lang="stylus">
+    @import "../../node_modules/tui-calendar/src/css/main.styl";
+
     .calendar {
-        height: 800px;
+        position: relative;
+        height: 100%;
     }
 </style>

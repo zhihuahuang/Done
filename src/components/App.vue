@@ -1,12 +1,16 @@
 <template>
     <div class="app">
         <div class="container">
-            <nav>
-                <span>四象限</span>
-                <span>日历</span>
+            <nav class="view-nav">
+                <el-radio-group v-model="view">
+                    <el-radio-button label="四象限"></el-radio-button>
+                    <el-radio-button label="日历"></el-radio-button>
+                </el-radio-group>
             </nav>
-            <calendar></calendar>
-            <!--<four-quadrant class="main"></four-quadrant>-->
+            <div class="view-wrapper">
+                <four-quadrant  v-if="view === '四象限'"></four-quadrant>
+                <calendar v-if="view === '日历'"></calendar>
+            </div>
         </div>
         <edit-panel></edit-panel>
     </div>
@@ -15,11 +19,13 @@
 <script>
     const FourQuadrant = require('./FourQuadrant.vue');
     const Calendar = require('./Calendar.vue');
-
     const EditPanel = require('./EditPanel.vue');
 
     module.exports = {
         name: "app",
+        data: () => ({
+            view: ''
+        }),
         components: {
             [FourQuadrant.name]: FourQuadrant,
             [Calendar.name]: Calendar,
@@ -63,7 +69,8 @@
         flex-direction: column;
     }
 
-    .main {
+    .view-wrapper {
         flex: 1;
+        overflow: hidden;
     }
 </style>

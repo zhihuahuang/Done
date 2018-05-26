@@ -51,6 +51,7 @@
     .four-quadrant {
         display: flex;
         flex-wrap: wrap;
+        height: 100%;
     }
 
     .quadrant {
