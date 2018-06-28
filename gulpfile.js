@@ -1,3 +1,7 @@
+const pump = require('pump');
+const browserify = require('browserify');
+const vueify = require('vueify');
+const source = require('vinyl-source-stream');
 const gulp = require('gulp');
 
 gulp.task('copy', () => {
@@ -5,16 +9,20 @@ gulp.task('copy', () => {
         .pipe(gulp.dest('dist'));
 });
 
-gulp.task('vueify', () => {
-    const browserify = require('browserify');
-    const vueify = require('vueify');
-    const source = require('vinyl-source-stream');
-
-    browserify('./src/index.js')
-    .transform(vueify)
-    .bundle()
-    .pipe(source('index.js'))
-    .pipe(gulp.dest('dist'))
+gulp.task('vueify', done => {
+    pump([
+        browserify('./src/index.js')
+        .transform(vueify)
+        .exclude(['fs'])
+        .bundle(),
+        source('index.js'),
+        gulp.dest('dist')
+    ], err => {
+        if (err) {
+            console.error(err);
+        }
+        done();
+    });
 });
 
 gulp.task('build', ['vueify', 'copy']);

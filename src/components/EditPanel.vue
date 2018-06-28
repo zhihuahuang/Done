@@ -4,12 +4,14 @@
         <!-- 任务名称 -->
         <el-row>
             <label for="task_name" data-required>名称</label>
-            <el-input id="task_name" v-model="task.name" label="名称" clearable></el-input>
+            <el-input id="task_name" v-model="task.name" label="名称" size="medium" clearable></el-input>
         </el-row>
         <!-- 任务描述 -->
         <el-row>
             <label for="task_description">描述</label>
-            <el-input id="task_description" :autosize="{minRows: 2}" v-model="task.description"></el-input>
+            <el-input id="task_description"
+                      type="textarea"
+                      :autosize="{minRows: 4}" v-model="task.description" size="medium"></el-input>
         </el-row>
         <el-row gutter="20">
             <el-col :span="12">
@@ -20,7 +22,7 @@
             </el-col>
         </el-row>
         <el-row>
-            <el-date-picker type="datetimerange" align="right"
+            <el-date-picker type="datetimerange" align="right" size="medium"
                             start-placeholder="开始日期" end-placeholder="结束日期"
                             v-model="task.time" :default-time="['9:00:00', '18:00:00']">
             </el-date-picker>
@@ -40,7 +42,7 @@
 </template>
 
 <script>
-    const bus = require('../utils/bus');
+    const eventHub = require('../utils/eventHub');
 
     class Task {
         constructor() {
@@ -59,29 +61,42 @@
             task: new Task()
         }),
         methods: {
+            /**
+             *
+             */
             addTask() {
                 if (!this.task.name) {
                     this.$message.error('任务名称不能为空');
                     return;
                 }
 
-                this.$store.commit('addTask', this.task);
-
-                this.resetTask();
+                this.$store
+                .dispatch('add', this.task)
+                .then(() => {
+                    this.resetTask();
+                });
             },
 
+            /**
+             *
+             */
             updateTask() {
-                this.$store.commit('updateTask', this.task);
-
-                this.resetTask();
+                this.$store
+                .dispatch('update', this.task)
+                .then(() => {
+                    this.resetTask();
+                });
             },
 
+            /**
+             *
+             */
             resetTask() {
                 this.task = new Task();
             }
         },
         created() {
-            bus.$on('edit', id => {
+            eventHub.$on('edit', id => {
                 this.task = {...this.$store.state.tasks[id]};
             });
         }

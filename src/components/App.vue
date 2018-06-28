@@ -2,7 +2,7 @@
     <div class="app">
         <div class="container">
             <nav class="view-nav">
-                <el-radio-group v-model="view">
+                <el-radio-group v-model="view" size="mini">
                     <el-radio-button label="四象限"></el-radio-button>
                     <el-radio-button label="日历"></el-radio-button>
                 </el-radio-group>
@@ -24,12 +24,15 @@
     module.exports = {
         name: "app",
         data: () => ({
-            view: ''
+            view: '四象限'
         }),
         components: {
             [FourQuadrant.name]: FourQuadrant,
             [Calendar.name]: Calendar,
             [EditPanel.name]: EditPanel
+        },
+        created() {
+            this.$store.dispatch('restore');
         }
     }
 </script>
@@ -67,6 +70,11 @@
         flex: 1;
         display: flex;
         flex-direction: column;
+    }
+
+    .view-nav {
+        padding: 7px 0;
+        text-align: center;
     }
 
     .view-wrapper {

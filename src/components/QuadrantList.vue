@@ -10,7 +10,7 @@
 </template>
 
 <script>
-    const bus = require('../utils/bus');
+    const eventHub = require('../utils/eventHub');
 
     module.exports = {
         name: 'quadrant-list',
@@ -27,11 +27,11 @@
         },
         methods: {
             editTask(task) {
-                bus.$emit('edit', task.id);
+                eventHub.$emit('edit', task.id);
             },
 
             finishTask(task) {
-
+                this.$store.dispatch('finish', task);
             }
         }
     };
